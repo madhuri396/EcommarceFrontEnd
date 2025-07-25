@@ -12,7 +12,7 @@ import { Productdetailscomponent } from './productdetailscomponent/productdetail
 import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,ProductComponent, ProductListComponent,CommonModule, RouterModule,FormsModule,Productdetailscomponent],
+  imports: [RouterOutlet,CommonModule, RouterModule,FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
