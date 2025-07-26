@@ -11,14 +11,16 @@
     <p class="product-price">
       Price: {{ product.unitPrice | currency:'INR':'symbol':'1.0-0' }}
     </p>
-    <p class="product-stock">Stock: {{ product.unitsInStock }}</p>
+    <!-- <p class="product-stock">Stock: {{ product.unitsInStock }}</p>
     <p class="product-active">Active: {{ product.active ? '✅' : '❌' }}</p>
-    
+     -->
 
     <div class="action-buttons">
       <button class="btn add-cart" >Add to Cart</button>
       <button class="btn order-now" >OrderNow</button>
     </div>
+    <div class="back-button">
+      <a class="btn back" (click)="goback()"> << Back</a>
   </div>
 </div>
 

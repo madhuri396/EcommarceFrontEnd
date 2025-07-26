@@ -42,5 +42,8 @@ getProductDetails() {
     }
   );
 }
+goback() {
+  window.history.back();
+}
 
 }
