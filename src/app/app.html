@@ -68,24 +68,104 @@
     </button>
   </div>
 </div>
- <div class="nav-right">
+
+
+ <!-- <div class="nav-right">
   <div class="cart-wrapper" id="cartBtn">
     <i class="fas fa-shopping-cart"></i>
     <span class="cart-count">3</span>
     <div class="cart-tooltip">Total: ₹1,250</div>
   </div>
-</div>
 
-<!-- Profile Section -->
-<div class="profile-wrapper">
+
+
+
+
+Profile Section
+<div class="profile-wrapper" *ngIf="isLoggedIn">
   <i class="fas fa-user-circle"></i>
-  <div class="profile-menu">
-    <a href="#">Personal Info</a>
+  <div class="profile-menu" >
+     
+    
+     <a (click)="showPersonalInfo()" class="btn btn-outline-info">Personal Info</a>
     <a href="#">Addresses</a>
     <a href="#">Orders</a>
     <a href="#" id="logoutBtn">Logout</a>
   </div>
 </div>
+
+Show Login when not authenticated
+<div class="login-wrapper" *ngIf="!isLoggedIn">
+  <a class="btn-login" [routerLink]="['/login']">Login</a>
+  <a class="btn-signup" [routerLink]="['/signup']">Sign Up</a>
+</div>
+</div>
+ -->
+<!-- <div class="nav-right">
+  Cart always visible 
+  <div class="cart-wrapper" id="cartBtn">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">3</span>
+    <div class="cart-tooltip">Total: ₹1,250</div>
+  </div>
+
+   If not logged in
+  <ng-container *ngIf="!isLoggedIn">
+    <a class="btn-login" [routerLink]="['/login']">Login</a>
+    <a class="btn-signup" [routerLink]="['/signup']">Sign Up</a>
+  </ng-container>
+
+ If logged in -->
+  <!-- <ng-container *ngIf="isLoggedIn">
+    <div class="profile-wrapper">
+      <i class="fas fa-user-circle"></i>
+      <div class="profile-menu">
+        <a (click)="showPersonalInfo()" class="btn btn-outline-info">Personal Info</a>
+        <a href="#">Addresses</a>
+        <a href="#">Orders</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
+    </div>
+  </ng-container> 
+  <div class="profile-wrapper" *ngIf="isLoggedIn" (click)="toggleProfileMenu()">
+  <i class="fas fa-user-circle"></i>
+
+  <div class="profile-menu" [class.show]="showProfileMenu">
+    <a (click)="showPersonalInfo()" class="btn btn-outline-info">Personal Info</a>
+    <a href="#">Addresses</a>
+    <a href="#">Orders</a>
+    <a href="#" id="logoutBtn">Logout</a>
+  </div>
+</div>
+</div> -->
+
+<div class="nav-right">
+  <!-- Cart is always visible -->
+  <div class="cart-wrapper" id="cartBtn">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">3</span>
+    <div class="cart-tooltip">Total: ₹1,250</div>
+  </div>
+
+  <!-- Show when user is NOT logged in -->
+  <ng-container *ngIf="!isLoggedIn">
+    <a class="btn btn-login" [routerLink]="['/login']">Login</a>
+    <a class="btn btn-signup" [routerLink]="['/signup']">Sign Up</a>
+  </ng-container>
+
+  <!-- Show when user IS logged in -->
+  <div class="profile-wrapper" *ngIf="isLoggedIn" (click)="toggleProfileMenu()">
+    <i class="fas fa-user-circle"></i>
+
+    <div class="profile-menu" [class.show]="showProfileMenu">
+      <a (click)="showPersonalInfo()" class="btn btn-outline-info">Personal Info</a>
+      <a href="#">Addresses</a>
+      <a href="#">Orders</a>
+      <a href="#" (click)="logout()">Logout</a>
+    </div>
+  </div>
+</div>
+
   </nav>
  
 

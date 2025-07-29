@@ -184,9 +184,21 @@ body {
   .nav-left,
   .nav-center,
   .nav-right {
-    margin-bottom: 12px;
-    text-align: center;
-  }
+  display: flex;
+  align-items: center;
+  /* adds space between icons/buttons */
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px; /* Adjust as needed */
+}
+.nav-right .icon-button,
+.nav-right .btn-login,
+.nav-right .btn-signup,
+.nav-right .profile-wrapper {
+  margin-left: 20px;
+}
 }
 .profile-wrapper {
   position: relative;
@@ -213,6 +225,10 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   z-index: 1000;
   min-width: 160px;
+}
+
+.profile-menu.show {
+  display: block;
 }
 
 .profile-menu a {
@@ -332,6 +348,93 @@ body {
 
 .submenu li a:hover {
   color: #00c6ff;
+}
+
+.btn-login {
+  background-color: yellow;           /* Rich blue gradient base */
+  color: #0e0707;
+  border: none;
+   padding: 0.2rem 0.55rem;   /* Slightly slimmer */
+  font-size: 14px;           /* Reduced from 15px */
+  border-radius: 4px;
+ 
+ 
+  font-weight: 600;
+  
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-login:hover {
+  background-color: #39549d;           /* Darker on hover */
+  transform: translateY(-1px);
+}
+
+.btn-login:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.4);
+}
+
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-login,
+.btn-signup {
+  background-color: yellow;
+  color: #222;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease;
+}
+
+.btn-login:hover,
+.btn-signup:hover {
+  background-color: #f7c000;
+}
+
+.profile-wrapper {
+  position: relative;
+  font-size: 22px;
+  color: #ffc107;
+  cursor: pointer;
+}
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background-color: #324a5f;
+  padding: 10px;
+  border-radius: 6px;
+  min-width: 160px;
+  z-index: 999;
+}
+
+.profile-menu.show {
+  display: block;
+}
+
+.profile-menu a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.profile-menu a:hover {
+  background-color: #00c6ff;
 }
 
 /* Sure, Javeed! Here's a table with **image URLs** for each product based on your list. These are sourced from official or reputable sites where available:

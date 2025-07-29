@@ -42,11 +42,14 @@ constructor(private productService: ProductsService, private cdRef: ChangeDetect
 this.route.paramMap.subscribe(() => {
   this.listProducts();  
 });
- this.searchSub = this.sharedService.searchTerm$.subscribe(term => {
+this.searchSub = this.sharedService.searchTerm$.subscribe(term => {
     this.fetchProducts(term);
   });
+ 
 
 }
+
+
 fetchProducts(term: string) {
   this.productService.searchProductBystartsWith(term).subscribe(results => {
     this.products = results;

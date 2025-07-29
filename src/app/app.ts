@@ -10,19 +10,31 @@ import { Categoryservice } from './services/categoryservice';
 import { Category } from './common/category';
 import { Productdetailscomponent } from './productdetailscomponent/productdetailscomponent';
 import { ChangeDetectorRef } from '@angular/core';
+import { Login } from './common/login';
+import { Userservice } from './services/userservice';
+import { OnInit } from '@angular/core';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,CommonModule, RouterModule,FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App  implements OnInit {
   protected readonly title = signal('example-app');
   isSidebarOpen = false;
 sear: string = '';
 products:Product[] = [];
 categories:Category[] = [];
-constructor(private sharedService: SharedService,private categoryservice:Categoryservice) {}
+UserData:Login | null = null;
+isLoggedIn = false;
+showProfileMenu = false;
+
+
+  
+
+  
+
+constructor(private sharedService: SharedService,private categoryservice:Categoryservice, private route:Router,private userServ:Userservice) {}
 
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
@@ -55,5 +67,31 @@ category(){
 //     // this is used to pass search value to product list component directly
 //   }
 
+
+
+
+ngOnInit() {
+  this.userServ.user$.subscribe((user) => {
+    this.UserData = user;
+    this.isLoggedIn = !!user;
+    console.log('Updated in AppComponent:', this.isLoggedIn);
+  });
+}
+
+  toggleProfileMenu() {
+    this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  showPersonalInfo() {
+    console.log('User Details:', this.UserData);
+    // Add route or modal logic here if needed
+  }
+
+  logout() {
+    this.userServ.clearUser();
+    this.isLoggedIn = false;
+    this.UserData = null;
+    this.showProfileMenu = false;
+  }
 
 }
