@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Login } from '../common/login';
 import { Loginregservice } from '../services/loginregservice';
 import { FormsModule } from '@angular/forms'; 
@@ -7,13 +7,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Userservice } from '../services/userservice';
+import {Useraddressservice} from '../services/useraddressservice'; // Assuming this service provides the default address
 @Component({
   selector: 'app-logincomponent',
   imports: [FormsModule,CommonModule,ReactiveFormsModule,RouterModule],
   templateUrl: './logincomponent.html',
   styleUrl: './logincomponent.css'
 })
-export class Logincomponent {
+export class Logincomponent implements OnInit {
   // This component can be used to handle user login functionality
   // You can inject services like AuthService to manage authentication  
   // and implement methods to handle login logic, form validation, etc.
@@ -23,12 +24,13 @@ export class Logincomponent {
   
   loginResponse:Login = new Login();
   
- constructor(private fb: FormBuilder,private loginService: Loginregservice,private route: Router,private userServ: Userservice) {
+ constructor(private fb: FormBuilder,private loginService: Loginregservice,private route: Router,private userServ: Userservice,private Useraddressservice: Useraddressservice) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
+  
 
     onLogin(): void {
     if(this.loginForm.valid) {
@@ -61,5 +63,23 @@ export class Logincomponent {
 personDetails():Login{
   return this.loginResponse;
 }
-
+ngOnInit(): void {
+ 
+     this.userServ.user$.subscribe(user => {
+      if(user?.id) {
+        console.log('User details:', user);
+        this.Useraddressservice.getAddress(user.id); // Fetch address for the logged-in user  
+    
+        
+  this.Useraddressservice.defaultAddress$.subscribe(addr => {
+  console.log('Default for current user:', addr);
+  
+});
+      }
+      else{
+        console.log('No user is logged in');
+      }
+}
+    );
+}
 }

@@ -436,6 +436,25 @@ body {
 .profile-menu a:hover {
   background-color: #00c6ff;
 }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Adds spacing between cart, login, and signup */
+  flex-wrap: wrap; /* Allows items to move to next line if space runs out */
+}
+
+.cart-wrapper,
+.btn-login,
+.btn-signup,
+.profile-wrapper {
+  margin: 0 5px; /* Optional: extra breathing room */
+}
+@media (max-width: 768px) {
+  .nav-right {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 /* Sure, Javeed! Here's a table with **image URLs** for each product based on your list. These are sourced from official or reputable sites where available:
 

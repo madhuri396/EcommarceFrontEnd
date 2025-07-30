@@ -16,7 +16,14 @@
      -->
 
     <div class="action-buttons">
-      <button class="btn add-cart" >Add to Cart</button> 
+      <button class="btn add-cart" *ngIf="!addedtocart" (click)="addToCart(product)">Add to Cart</button> 
+      <div class="cart-message" *ngIf="addedtocart">
+  ✅ <strong>{{ product.name }}</strong> added to cart.
+  
+</div>
+      <button class="btn gotocart" *ngIf="addedtocart" [routerLink]="'/cart'" routerLinkActive="active-link">
+    goto cart
+  </button>
       <button class="btn order-now" >OrderNow</button>
     </div>
     <div class="back-button">

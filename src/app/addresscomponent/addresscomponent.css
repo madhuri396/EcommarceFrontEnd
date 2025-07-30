@@ -1,0 +1,15 @@
+.address-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  transition: box-shadow 0.3s ease;
+}
+.address-card:hover {
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+.selected-message {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #2e7d32;
+}

@@ -31,4 +31,23 @@ return this.httpClient.post<Login>('http://localhost:8088/api/users/login', cred
 
   
 }
+
+postRegisterData(postData: any): Observable<any> {
+  console.log('Registering user with data:', postData);
+  return this.httpClient.post<Login>(this.registerUrl, postData, {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  });
+}
+
+getAddresses(userid:number): Observable<any[]> {
+
+  const url = `http://localhost:8088/api/users/Address/${userid}`;
+  return this.httpClient.get<any>(url, {
+    headers: new HttpHeaders({  
+      'Content-Type': 'application/json'
+    })
+  });
+}
 }

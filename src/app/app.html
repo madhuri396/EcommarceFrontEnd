@@ -140,17 +140,26 @@ Show Login when not authenticated
 </div> -->
 
 <div class="nav-right">
+  <a (click)="goToCart()" class="cart-wrapper" id="cartBtn">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="cart-count">{{ cartCount }}</span>
+  <div class="cart-tooltip">Total: ₹{{ cartTotal }}</div>
+</a>
+</div>
   <!-- Cart is always visible -->
-  <div class="cart-wrapper" id="cartBtn">
+  <!-- <div class="cart-wrapper" id="cartBtn">
     <i class="fas fa-shopping-cart"></i>
-    <span class="cart-count">3</span>
-    <div class="cart-tooltip">Total: ₹1,250</div>
-  </div>
+    <a [routerLink]="['/cart']">cart</a>
+     <app-cartcomponent></app-cartcomponent> 
+    <span class="cart-count">{{cartCount}}</span>
+    <div class="cart-tooltip">{{cartTotal}}</div>
+  </div> -->
+  
 
   <!-- Show when user is NOT logged in -->
   <ng-container *ngIf="!isLoggedIn">
     <a class="btn btn-login" [routerLink]="['/login']">Login</a>
-    <a class="btn btn-signup" [routerLink]="['/signup']">Sign Up</a>
+    <a class="btn btn-signup" [routerLink]="['/register']">Sign Up</a>
   </ng-container>
 
   <!-- Show when user IS logged in -->
@@ -159,12 +168,12 @@ Show Login when not authenticated
 
     <div class="profile-menu" [class.show]="showProfileMenu">
       <a (click)="showPersonalInfo()" class="btn btn-outline-info">Personal Info</a>
-      <a href="#">Addresses</a>
+      <a [routerLink]="'/addresses'"> Addresses </a>
       <a href="#">Orders</a>
       <a href="#" (click)="logout()">Logout</a>
     </div>
   </div>
-</div>
+
 
   </nav>
  

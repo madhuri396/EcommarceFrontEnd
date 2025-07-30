@@ -1,0 +1,8 @@
+<p>cart-sidebar works!</p>
+<div *ngIf="defaultAddress">
+  <h4>Shipping to:</h4>
+  <p>
+    {{ defaultAddress.street }}<br>
+    {{ defaultAddress.city }}, {{ defaultAddress.state }} - {{ defaultAddress.zip }}
+  </p>
+</div>

@@ -44,7 +44,7 @@
 
     <div *ngIf="cart[product.id]; else addBtn" class="quantity-controls">
       <button (click)="decreaseQuantity(product)">−</button>
-      <span>{{ cart[product.id] }}</span>
+      <span>{{totalquan}}</span>
       <button (click)="increaseQuantity(product)">+</button>
     </div>
 

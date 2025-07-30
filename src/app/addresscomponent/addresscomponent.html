@@ -1,0 +1,15 @@
+<p>addresscomponent works!</p>
+<h2>Select Your Address</h2>
+
+<div *ngFor="let addr of addresses; let i = index" class="address-card">
+  <label>
+    <input type="radio" name="selectedAddress" [checked]="selectedAddressIndex === i"
+           (click)="selectAddress(i)" />
+    {{ addr.line1 }}, {{ addr.city }}, {{ addr.state }} – {{ addr.zipCode }}
+  </label>
+</div>
+
+<div *ngIf="selectedAddressIndex !== null" class="selected-message">
+  ✅ Selected Address:
+  <strong>{{ addresses[selectedAddressIndex].line1 }}</strong>
+</div>

@@ -13,9 +13,16 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Login } from './common/login';
 import { Userservice } from './services/userservice';
 import { OnInit } from '@angular/core';
+import {Cartstateservice} from './services/cartstateservice';
+import { Subscription } from 'rxjs';
+import { Cartcomponent } from './cartcomponent/cartcomponent';
+import { Cartservice } from './services/cartservice';
+import { Registercomponent } from './registercomponent/registercomponent';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CartSidebar } from './cart-sidebar/cart-sidebar';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,CommonModule, RouterModule,FormsModule],
+  imports: [RouterOutlet,CommonModule, RouterModule,FormsModule,ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -29,12 +36,13 @@ UserData:Login | null = null;
 isLoggedIn = false;
 showProfileMenu = false;
 
-
+cartCount: number = 0;
+cartTotal: number = 0
   
 
   
 
-constructor(private sharedService: SharedService,private categoryservice:Categoryservice, private route:Router,private userServ:Userservice) {}
+constructor(private sharedService: SharedService,private categoryservice:Categoryservice, private route:Router,private userServ:Userservice,private cartState: Cartstateservice,private cartservice:Cartservice) {}
 
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
@@ -46,7 +54,10 @@ toggleSubmenu(category: string) {
 }
 
 onSearchChange() {
-  this.sharedService.emitSearchTerm(this.sear);
+  if (this.sear.trim()) {
+    this.sharedService.emitSearchTerm(this.sear);
+    this.route.navigate(['/products']);
+  }
 }
 category(){
   this.categoryservice.getCategories().subscribe(
@@ -71,11 +82,25 @@ category(){
 
 
 ngOnInit() {
-  this.userServ.user$.subscribe((user) => {
+  this.userServ.user$.subscribe(user => {
     this.UserData = user;
     this.isLoggedIn = !!user;
-    console.log('Updated in AppComponent:', this.isLoggedIn);
+    if (user?.id) {
+      this.loadCartSummary(user.id);
+     
+    }
   });
+
+  this.cartState.refresh$.subscribe(() => {
+    if (this.UserData?.id) {
+      this.loadCartSummary(this.UserData.id);
+    }
+  });
+}
+
+loadCartSummary(userId: number) {
+  this.cartservice.getTotalCost(userId).subscribe(cost => this.cartTotal = cost);
+  this.cartservice.getTotalQuantity(userId).subscribe(qty => this.cartCount = qty);
 }
 
   toggleProfileMenu() {
@@ -94,4 +119,11 @@ ngOnInit() {
     this.showProfileMenu = false;
   }
 
+  goToCart() {
+    if (this.isLoggedIn) {
+      this.route.navigate(['/cart']);
+    } else {
+      alert('Please log in to view your cart.');
+    }
+  }
 }
