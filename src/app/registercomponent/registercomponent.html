@@ -82,11 +82,20 @@
         <label class="form-label"><i class="bi bi-lock-fill me-2"></i>Password</label>
         <input formControlName="password" type="password" class="form-control" />
       </div>
-
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-person-fill me-2"></i>PhoneNumber</label>
+        <input formControlName="phoneNumber" class="form-control" />
+      </div>
       <!-- Address (Single Entry) -->
       <h5 class="mt-4 text-secondary fw-semibold">📍 Address Info</h5>
       <div formArrayName="addresses">
         <div [formGroupName]="0" class="row g-3">
+          <div class="col-12 col-md-6">
+            <input formControlName="receiverName" class="form-control" placeholder="ReceiverName" />
+          </div>
+          <div class="col-12 col-md-6">
+            <input formControlName="phoneNumber" class="form-control" placeholder="PhoneNumber" />
+          </div>
           <div class="col-12 col-md-6">
             <input formControlName="line1" class="form-control" placeholder="Line 1" />
           </div>

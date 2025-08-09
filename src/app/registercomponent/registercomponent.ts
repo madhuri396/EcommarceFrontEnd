@@ -23,8 +23,11 @@ export class Registercomponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      phoneNumber:['', Validators.required],
       addresses: this.fb.array([
         this.fb.group({
+           receiverName:['', Validators.required],
+           phoneNumber:['', Validators.required],
           line1: ['', Validators.required],
           line2: [''],
           city: ['', Validators.required],

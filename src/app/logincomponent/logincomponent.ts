@@ -23,7 +23,7 @@ export class Logincomponent implements OnInit {
 
   
   loginResponse:Login = new Login();
-  
+  userId: number = 0;
  constructor(private fb: FormBuilder,private loginService: Loginregservice,private route: Router,private userServ: Userservice,private Useraddressservice: Useraddressservice) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -67,11 +67,13 @@ ngOnInit(): void {
  
      this.userServ.user$.subscribe(user => {
       if(user?.id) {
+        this.userId = user.id;
         console.log('User details:', user);
         this.Useraddressservice.getAddress(user.id); // Fetch address for the logged-in user  
     
         
-  this.Useraddressservice.defaultAddress$.subscribe(addr => {
+  
+  this.Useraddressservice.selectedAddress$.subscribe(addr => {
   console.log('Default for current user:', addr);
   
 });
@@ -82,4 +84,6 @@ ngOnInit(): void {
 }
     );
 }
+ 
+
 }

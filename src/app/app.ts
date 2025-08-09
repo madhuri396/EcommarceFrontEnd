@@ -20,6 +20,8 @@ import { Cartservice } from './services/cartservice';
 import { Registercomponent } from './registercomponent/registercomponent';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartSidebar } from './cart-sidebar/cart-sidebar';
+import { OrdersListComponent } from './order-list-component/order-list-component';
+import { PersonalInfoComponent } from './personal-info-component/personal-info-component';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,CommonModule, RouterModule,FormsModule,ReactiveFormsModule],

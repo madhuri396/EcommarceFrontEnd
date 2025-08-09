@@ -167,9 +167,9 @@ Show Login when not authenticated
     <i class="fas fa-user-circle"></i>
 
     <div class="profile-menu" [class.show]="showProfileMenu">
-      <a (click)="showPersonalInfo()" class="btn btn-outline-info">Personal Info</a>
+      <a [routerLink]="'/personal-info'" class="btn btn-outline-info">Personal Info</a>
       <a [routerLink]="'/addresses'"> Addresses </a>
-      <a href="#">Orders</a>
+      <a [routerLink]="'/orders'">Orders</a>
       <a href="#" (click)="logout()">Logout</a>
     </div>
   </div>

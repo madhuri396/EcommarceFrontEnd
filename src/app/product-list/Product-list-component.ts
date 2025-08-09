@@ -43,7 +43,7 @@ constructor(private productService: ProductsService, private cdRef: ChangeDetect
 //  })
 this.route.paramMap.subscribe(() => {
   //this.listProducts();  
-  this.getAllProducts();
+  //this.getAllProducts();
   this.listProducts();
 });
 this.searchSub = this.sharedService.searchTerm$.subscribe(term => {
@@ -80,10 +80,6 @@ listProducts(){
   if (hasCategoryId) {
   this.categoryId = +this.route.snapshot.paramMap.get('id')!;
   console.log('Category ID:', this.categoryId);
-    
-  } else {
-     this.categoryId=1;
-  }
   this.productService.getProductByCategory(this.categoryId).subscribe( 
       data => {
         this.products = data;
@@ -91,6 +87,12 @@ listProducts(){
         this.cdRef.detectChanges(); 
       }     
     );
+    
+  } else {
+    // this.categoryId=1;
+    this.getAllProducts();
+  }
+  
 } 
 
 cart: { [productId: number]: number } = {};

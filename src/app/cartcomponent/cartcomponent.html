@@ -1,5 +1,12 @@
 <div class="cart-grid">
   <div class="cart-item" *ngFor="let item of cartItems">
+    <input
+    type="checkbox"
+    [checked]="isSelected(item)"
+    (change)="toggleSelection(item, $event.target.checked)"
+  />
+
+
     <img [src]="item.imageUrl" alt="{{ item.productName }}" class="product-image" [routerLink]="'/products/' + item.productId" />
 
     <div class="item-details">
