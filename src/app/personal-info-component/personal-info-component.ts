@@ -67,7 +67,12 @@ isuser:any;
     //updatedUser.id = this.isuser.id; // Ensure the user ID is set
 
     this.loginService.updateProfile(updatedUser).subscribe(response => {
-      this.userData = response;
+      this.userData.email= response.email;
+      this.userData.username = response.username;
+      this.userData.phoneNumber = response.phoneNumber;
+     // this.userData.role= this.userData.role || 'user'; // Ensure role is set
+      // this.userData = response;
+      // this.userData.role = this.userData.role || 'user'; // Ensure role is set
       this.isEditMode = false;
     });
   }

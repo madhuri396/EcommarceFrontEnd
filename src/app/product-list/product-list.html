@@ -53,6 +53,6 @@
     </ng-template>
   </div>
 </div>
-<div *ngIf="products.length === 0" class="custom-alert">
+<div *ngIf="products.length === 0 && showEmptyMessage" class="custom-alert">
   <p>No products available in this category.</p>  
 </div>

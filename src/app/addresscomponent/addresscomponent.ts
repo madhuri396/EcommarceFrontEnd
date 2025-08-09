@@ -45,7 +45,10 @@ export class AddressComponent implements OnInit {
       this.addresses = data;
        if (this.addresses?.length && !this.selectedAddressIndex) {
     this.selectedAddressIndex =0; // Set first address as default
+    console.log("triggered", this.addresses);
   }
+  this.addService.triggerRefresh(this.userId);
+  console.log("triggered");
 
     });
   }

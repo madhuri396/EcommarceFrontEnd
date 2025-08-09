@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { EnrichedCartItem } from '../common/enriched-cart-item';
 import { forkJoin } from 'rxjs';
 import { Cartstateservice } from '../services/cartstateservice';
+import { Cartservice } from '../services/cartservice';
 
 @Component({
   selector: 'app-check-out-component',
@@ -43,7 +44,8 @@ export class CheckoutComponent implements OnInit {
     private paymentService: Paymentservice,
     private productService: ProductsService, // Assuming you have a ProductService to fetch product details
     private router: Router,
-    private cartStateService: Cartstateservice
+    private cartStateService: Cartstateservice,
+    private cartService :Cartservice
   ) {}
 
 //   ngOnInit(): void {
@@ -104,29 +106,70 @@ console.log('Cart items:', this.cartItems);
     });
   }
 
-  confirmOrder(): void {
-    const orderRequest = new Orderrequestdto(
-      this.userId,
-      this.cartItems.map(item => ({ productId: item.productId, quantity: item.quantity })),
-      this.address.id,
-      'RAZORPAY'
-    );
+  // confirmOrder(): void {
+  //   const orderedProductIds = this.cartItems.map(item => item.productId); // ✅ Declare here
 
-    this.orderService.placeOrder(orderRequest).subscribe(orderResponse => {
-      this.paymentService.initiateRazorpay(
-        orderResponse.payment.razorpayOrderId,
-        orderResponse.totalAmount,
-        orderResponse.orderId,
-        () => {
-          this.cartStateService.clearCart();
-          this.router.navigate(['/order-confirmation'], {
-            state: { orderId: orderResponse.orderId }
-          });
-        }
-      );
-    });
+
+  //   const orderRequest = new Orderrequestdto(
+  //     this.userId,
+  //     this.cartItems.map(item => ({ productId: item.productId, quantity: item.quantity })),
+  //     this.address.id,
+  //     'RAZORPAY'
+  //   );
+
+  //   this.orderService.placeOrder(orderRequest).subscribe(orderResponse => {
+  //     this.paymentService.initiateRazorpay(
+  //       orderResponse.payment.razorpayOrderId,
+  //       orderResponse.totalAmount,
+  //       orderResponse.orderId,
+  //       () => {
+  //         orderedProductIds.forEach(productId => {
+  //         this.cartStateService.removeProdItem(productId);
+  //       });
+
+  //       this.cartStateService.triggerRefresh();
+  //       alert('🎉 Order placed successfully!');
+
+
+  //         this.router.navigate(['/order-confirmation'], {
+  //           state: { orderId: orderResponse.orderId }
+  //         });
+  //       }
+  //     );
+  //   });
     
-  }
+  // }
+  confirmOrder(): void {
+  const orderedProductIds = this.cartItems.map(item => item.productId);
+
+  const orderRequest = new Orderrequestdto(
+    this.userId,
+    this.cartItems.map(item => ({ productId: item.productId, quantity: item.quantity })),
+    this.address.id,
+    'RAZORPAY'
+  );
+
+  this.orderService.placeOrder(orderRequest).subscribe(orderResponse => {
+    this.paymentService.initiateRazorpay(
+      orderResponse.payment.razorpayOrderId,
+      orderResponse.totalAmount,
+      orderResponse.orderId,
+      () => {
+        // ✅ Efficient frontend cart cleanup
+        this.cartStateService.removeMultipleByProductIds(orderedProductIds);
+
+        // ✅ Backend cart cleanup
+        this.cartService.removeOrderedItems(this.userId, orderedProductIds).subscribe();
+
+        this.cartStateService.triggerRefresh();
+        alert('🎉 Order placed successfully!');
+        this.router.navigate(['/order-confirmation'], {
+          state: { orderId: orderResponse.orderId }
+        });
+      }
+    );
+  });
+}
 
  cancelOrder(): void {
     this.router.navigate(['/cart']);

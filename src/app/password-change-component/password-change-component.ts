@@ -52,7 +52,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { PassChange } from '../common/pass-change';
 import { Loginregservice } from '../services/loginregservice';
 import { Login } from '../common/login';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-password-change-component',
   standalone: true,
@@ -65,7 +65,7 @@ export class PasswordChangeComponent {
   message = '';
   error = '';
 
-  constructor(private fb: FormBuilder, private loginService: Loginregservice) {
+  constructor(private fb: FormBuilder, private loginService: Loginregservice, private location: Location) {
     this.passForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       oldPassword: ['', Validators.required],
@@ -86,8 +86,8 @@ export class PasswordChangeComponent {
     if (this.passForm.valid) {
       const payload: PassChange = {
         email: this.passForm.value.email,
-        oldPassword: this.passForm.value.oldPassword,
-        newPassword: this.passForm.value.newPassword
+        oldpassword: this.passForm.value.oldPassword,
+        newpassword: this.passForm.value.newPassword
       };
 
       this.loginService.updatePassword(payload).subscribe({
@@ -95,6 +95,7 @@ export class PasswordChangeComponent {
           this.message = '✅ Password updated successfully!';
           this.error = '';
           this.passForm.reset();
+          this.location.back(); // Navigate back after successful update
         },
         error: (err) => {
           this.error = '❌ Failed to update password. Please try again.';
@@ -103,5 +104,8 @@ export class PasswordChangeComponent {
         }
       });
     }
+  }
+   goback(){
+  this.location.back(); 
   }
 }

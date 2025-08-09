@@ -22,6 +22,8 @@ export class ProductListComponent implements OnInit {
 products:Product[] = [];
 searchSub: Subscription = new Subscription();
 categoryId: number = 0;
+showEmptyMessage: boolean = false;
+
 constructor(private productService: ProductsService, private cdRef: ChangeDetectorRef
 ,private route:ActivatedRoute ,private sharedService: SharedService,private cartserv:Cartservice,private usersev:Userservice,private cartstate:Cartstateservice) {}
  @Input() searchTerm: string =" ";
@@ -63,37 +65,71 @@ getAllProducts(): Product[] {
   return this.products;
 } 
 
-fetchProducts(term: string) {
-  this.productService.searchProductBystartsWith(term).subscribe(results => {
-    this.products = results;
-  });
-}
+// fetchProducts(term: string) {
+//   this.productService.searchProductBystartsWith(term).subscribe(results => {
+//     this.products = results;
+//   });
+// }
 
 // handleSearch(term: string) {
 //   this.productService.searchProductBystartsWith(term).subscribe(results => {
 //     this.products = results;
 //   });
 // }// it is used to pass search value to product list component directly from app component
-listProducts(){
-  const hasCategoryId = this.route.snapshot.paramMap.has('id');
-  console.log('Has category ID:', hasCategoryId);
-  if (hasCategoryId) {
-  this.categoryId = +this.route.snapshot.paramMap.get('id')!;
-  console.log('Category ID:', this.categoryId);
-  this.productService.getProductByCategory(this.categoryId).subscribe( 
-      data => {
-        this.products = data;
-        console.log('Products by category loaded:', this.products);
-        this.cdRef.detectChanges(); 
-      }     
-    );
+// listProducts(){
+//   const hasCategoryId = this.route.snapshot.paramMap.has('id');
+//   console.log('Has category ID:', hasCategoryId);
+//   if (hasCategoryId) {
+//   this.categoryId = +this.route.snapshot.paramMap.get('id')!;
+//   console.log('Category ID:', this.categoryId);
+//   this.productService.getProductByCategory(this.categoryId).subscribe( 
+//       data => {
+//         this.products = data;
+//         console.log('Products by category loaded:', this.products);
+//         this.cdRef.detectChanges(); 
+//       }     
+//     );
     
+//   } else {
+//     // this.categoryId=1;
+//     this.getAllProducts();
+//   }
+  
+// } 
+fetchProducts(term: string) {
+  this.showEmptyMessage = false;
+
+  this.productService.searchProductBystartsWith(term).subscribe(results => {
+    this.products = results;
+
+    if (results.length === 0) {
+      setTimeout(() => {
+        this.showEmptyMessage = true;
+      }, 2000);
+    }
+  });
+}
+
+listProducts() {
+  this.showEmptyMessage = false; // reset before loading
+
+  const hasCategoryId = this.route.snapshot.paramMap.has('id');
+  if (hasCategoryId) {
+    this.categoryId = +this.route.snapshot.paramMap.get('id')!;
+    this.productService.getProductByCategory(this.categoryId).subscribe(data => {
+      this.products = data;
+      this.cdRef.detectChanges();
+
+      if (this.products.length === 0) {
+        setTimeout(() => {
+          this.showEmptyMessage = true;
+        }, 2000); // ⏱️ 2-second delay
+      }
+    });
   } else {
-    // this.categoryId=1;
     this.getAllProducts();
   }
-  
-} 
+}
 
 cart: { [productId: number]: number } = {};
 

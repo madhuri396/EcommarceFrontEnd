@@ -85,13 +85,29 @@ export class AddressFormComponent implements OnInit {
       });
     }
   }
+// add(): void {
+//     this.userAddressService.addAddress(this.userId, this.newAddress);
+//     this.addressAdded.emit(this.newAddress);
+//     this.newAddress = new AddressDTO(); // reset form
+//     alert('✅ Address added successfully!');
+//  this.router.navigate(['/addresses']);
+// }
+
 add(): void {
-    this.userAddressService.addAddress(this.userId, this.newAddress);
-    this.addressAdded.emit(this.newAddress);
+  this.userAddressService.addAddress(this.userId, this.newAddress).subscribe({
+  next: (response) => {
+    console.log('✅ Address added:', response);
+    this.addressAdded.emit(response);
     this.newAddress = new AddressDTO(); // reset form
     alert('✅ Address added successfully!');
- this.router.navigate(['/addresses']);
-}
+    this.router.navigate(['/addresses']);
+  },
+  error: (err) => {
+    console.error('❌ Failed to add address:', err);
+    alert('Failed to add address. Please try again.');
+  }
+});
+  }
   save(): void {
     if (this.isEditMode) {
       this.userAddressService.updateAddress(this.userId, this.addressId, this.newAddress).subscribe(() => {
@@ -101,6 +117,7 @@ add(): void {
     } else {
       this.userAddressService.addAddress(this.userId, this.newAddress).subscribe(() => {
         this.addressAdded.emit(this.newAddress);
+        console.log('Address added:', this.newAddress);
         this.newAddress = new AddressDTO(); // reset form
         alert('✅ Address added successfully!');
         this.router.navigate(['/addresses']);

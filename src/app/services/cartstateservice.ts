@@ -28,6 +28,21 @@ removeItem(itemId: number) {
     const updated = this.cartDataSubject1.getValue().filter(item => item.itemId !== itemId);
     this.cartDataSubject1.next(updated);
   }
+removeProdItem(productId: number) {
+  const updated = this.cartDataSubject1.getValue().filter(item => item.productId !== productId);
+  this.cartDataSubject1.next(updated);
+}
+removeMultipleByProductIds(productIds: number[]) {
+  const updated = this.cartDataSubject1.getValue().filter(
+    item => !productIds.includes(item.productId)
+  );
+  this.cartDataSubject1.next(updated);
+}
+syncCart(cart: Cart[]) {
+  this.cartDataSubject1.next(cart);
+}
+
+
 
 //   // Get total count and total cost
 //   getCartSummary(): { count: number; total: number } {

@@ -40,6 +40,13 @@ export class Cartservice {
   getProductDetails(id: number): Observable<ProductDTO> {
     return this.http.get<ProductDTO>(`${this.apiUrl}/products/${id}`);
   }
+
+  removeOrderedItems(userId: number, productIds: number[]): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/remove/ordered/${userId}`, {
+    body: productIds
+  });
+}
+
 }
 
 
